@@ -29,9 +29,6 @@ in
   home-manager.sharedModules = lib.singleton {
     programs.firefox = {
       enable = true;
-      nativeMessagingHosts = [
-        pkgs.keepassxc
-      ];
 
       policies = {
         DisableTelemetry = true;
@@ -100,20 +97,6 @@ in
       "x-scheme-handler/https" = "firefox.desktop";
       "x-scheme-handler/about" = "firefox.desktop";
     };
-  };
-
-  security.apparmor.policies.firefox = {
-    state = "complain";
-
-    profile = ''
-      alias /etc/profiles/per-user/*/bin/firefox -> ${lib.getExe pkgs.firefox},
-      alias /run/current-system/sw/bin/firefox -> ${lib.getExe pkgs.firefox},
-
-      profile firefox ${lib.getExe pkgs.firefox} {
-        owner /home/*/.mozilla/** rwk,
-        owner /home/*/Downloads/** rw,
-      }
-    '';
   };
 
   sapphire.storage.impermanence.users.shared.dirs = [
