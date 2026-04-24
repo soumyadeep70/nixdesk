@@ -1,6 +1,7 @@
 {
   "isLightMode": false,
   "doNotDisturb": false,
+  "doNotDisturbUntil": 0,
   "wallpaperPath": "/home/cypher/Pictures/Wallpapers/4k-keyboard.jpg",
   "perMonitorWallpaper": false,
   "monitorWallpapers": {},
@@ -69,6 +70,7 @@
   "appOverrides": {},
   "searchAppActions": true,
   "vpnLastConnected": "",
+  "lastPlayerIdentity": "",
   "deviceMaxVolumes": {},
   "hiddenOutputDeviceNames": [],
   "hiddenInputDeviceNames": [],
@@ -79,7 +81,7 @@
   "launcherQueryHistory": [],
   "appDrawerLastMode": "apps",
   "niriOverviewLastMode": "apps",
-  "settingsSidebarExpandedIds": ",",
+  "settingsSidebarExpandedIds": ",dankbar,workspaces_widgets,dock_launcher,displays,",
   "settingsSidebarCollapsedIds": ",",
   "configVersion": 3
 }

@@ -3,6 +3,6 @@
 }:
 {
   imports = [
-    ./dank-material-shell
+    ./plasma6
   ];
 }

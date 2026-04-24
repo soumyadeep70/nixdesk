@@ -5,6 +5,7 @@
 }:
 {
   home-manager.sharedModules = lib.singleton ({ config, lib, ... }: {
+    xdg.autostart.enable = true;
     programs.keepassxc = {
       enable = true;
       autostart = true;

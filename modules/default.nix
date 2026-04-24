@@ -47,7 +47,6 @@ in
       inputs',
       self,
       self',
-      config,
       ...
     }:
     {
