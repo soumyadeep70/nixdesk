@@ -16,6 +16,9 @@
           pkief.material-icon-theme
           jnoortheen.nix-ide
           tamasfe.even-better-toml
+          dbaeumer.vscode-eslint
+          bradlc.vscode-tailwindcss
+          esbenp.prettier-vscode
         ];
         userSettings = {
           "editor.fontFamily" = "JetBrainsMono Nerd Font";
@@ -34,6 +37,7 @@
     };
     home.packages = with pkgs; [
       nixd
+      eslint
     ];
   };
 }

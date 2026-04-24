@@ -75,6 +75,8 @@
   "locale": "",
   "timeLocale": "",
   "launcherLastMode": "all",
+  "launcherLastQuery": "",
+  "launcherQueryHistory": [],
   "appDrawerLastMode": "apps",
   "niriOverviewLastMode": "apps",
   "settingsSidebarExpandedIds": ",",
