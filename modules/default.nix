@@ -19,8 +19,7 @@ let
             importModulesRecursive (path + "/${name}")
           else
             [ ]
-        )
-        (builtins.readDir path) 
+        ) (builtins.readDir path)
       );
 
   importModules =
@@ -36,12 +35,11 @@ let
           importModulesRecursive (path + "/${name}")
         else
           [ ]
-      )
-      (builtins.readDir path)
+      ) (builtins.readDir path)
     );
 in
 {
-  flake.nixosModules.sapphire =
+  flake.nixosModules.default =
     {
       inputs,
       inputs',

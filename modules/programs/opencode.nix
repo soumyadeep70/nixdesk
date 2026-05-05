@@ -9,11 +9,14 @@
       web = {
         enable = true;
         extraArgs = [
-          "--hostname" "127.0.0.1"
-          "--port"     "4096"
+          "--hostname"
+          "127.0.0.1"
+          "--port"
+          "4096"
           # "--cors"     "http://localhost:3000"
           "--print-logs"
-          "--log-level" "INFO"
+          "--log-level"
+          "INFO"
         ];
       };
     };

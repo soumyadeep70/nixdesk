@@ -1,7 +1,6 @@
-# --- flake.nix
 {
-  description = "Functionality first";
-  
+  description = "Nixdesk";
+
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     flake-parts = {
@@ -14,6 +13,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     files.url = "github:mightyiam/files";
+    git-hooks.url = "github:cachix/git-hooks.nix";
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -21,14 +21,6 @@
     import-tree.url = "github:vic/import-tree";
     # hyprland.url = "github:hyprwm/Hyprland";
     niri-flake.url = "github:sodiboo/niri-flake";
-    stylix = {
-      url = "github:nix-community/stylix";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-    noctalia-shell = {
-      url = "github:noctalia-dev/noctalia-shell";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     dank-material-shell = {
       url = "github:AvengeMedia/DankMaterialShell";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -37,6 +29,10 @@
       url = "github:AvengeMedia/dgop";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    disblock-origin = {
+      url = "git+https://codeberg.org/AllPurposeMat/Disblock-Origin.git";
+      flake = false;
+    };
     impermanence = {
       url = "github:nix-community/impermanence";
       inputs = {
@@ -44,12 +40,15 @@
         nixpkgs.follows = "nixpkgs";
       };
     };
+    moonlight = {
+      url = "github:moonlight-mod/moonlight";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     nix-index-database = {
       url = "github:nix-community/nix-index-database";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nixos-hardware.url = "github:nixos/nixos-hardware";
-    pre-commit-hooks.url = "github:cachix/pre-commit-hooks.nix";
     sops-nix.url = "github:Mic92/sops-nix";
     treefmt-nix = {
       url = "github:numtide/treefmt-nix";
@@ -61,13 +60,18 @@
     inputs@{ flake-parts, ... }:
     flake-parts.lib.mkFlake { inherit inputs; } {
       imports = [
-        # ./dev
-        # ./generators
+        ./formatter.nix
+        ./git-hooks.nix
+        ./devshell.nix
+        ./generators
         ./hosts
         ./modules
         ./overlays
       ];
 
-      systems = [ "x86_64-linux" ];
+      systems = [
+        "x86_64-linux"
+        "aarch64-linux"
+      ];
     };
 }

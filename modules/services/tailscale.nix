@@ -1,18 +1,26 @@
 {
   config,
-  self,
+  lib,
   ...
 }:
+let
+  cfg = config.nixdesk.services.tailscale;
+in
 {
-  sops.secrets.tailscale_auth_key = {
-    sopsFile = self + "/secrets/phoenix/tailscale.yaml";
-    key = "auth_key";
-    group = "secrets";
-    mode = "0440";
+  options.nixdesk.services.tailscale = {
+    enable = lib.mkEnableOption "tailscale";
+    authKeyFile = lib.mkOption {
+      type = lib.types.str;
+      description = "The key for authenticating with tailscale";
+      example = "/run/secrets/tailscale_auth_key";
+    };
   };
-  services.tailscale = {
-    enable = true;
-    openFirewall = true;
-    authKeyFile = config.sops.secrets.tailscale_auth_key.path;
+
+  config = {
+    services.tailscale = {
+      enable = true;
+      openFirewall = true;
+      inherit (cfg) authKeyFile;
+    };
   };
 }

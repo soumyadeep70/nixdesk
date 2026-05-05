@@ -1,4 +1,3 @@
-# --- Periodically update flake inputs in flake.lock
 name: update-flake-lock
 on:
   workflow_dispatch: # allows manual triggering from the Actions UI
@@ -11,16 +10,10 @@ jobs:
       - name: "Checking out repository..."
         uses: actions/checkout@v4
       - name: "Installing and configuring the nix package manager..."
-        uses: cachix/install-nix-action@v31
+        uses: DeterminateSystems/nix-installer-action@main
         with:
-          extra_nix_config: |
+          extra-conf: |
             accept-flake-config = true
-      # NOTE: Alternatively you can use the DeterminateSystems nix installer
-      # - name: "Installing and configuring the nix package manager..."
-      #   uses: DeterminateSystems/nix-installer-action@main
-      #   with:
-      #     extra-conf: |
-      #       accept-flake-config = true
       - name: "Updating flake.lock..."
         uses: DeterminateSystems/update-flake-lock@main
         with:

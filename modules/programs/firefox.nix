@@ -3,7 +3,7 @@
   pkgs,
   ...
 }:
-let 
+let
   materialfox = pkgs.buildNpmPackage {
     pname = "materialfox";
     version = "latest";
@@ -30,6 +30,10 @@ in
     programs.firefox = {
       enable = true;
 
+      nativeMessagingHosts = [
+        pkgs.bitwarden-desktop
+      ];
+
       policies = {
         DisableTelemetry = true;
         DisablePocket = true;
@@ -43,9 +47,9 @@ in
             installation_mode = "force_installed";
             install_url = "https://addons.mozilla.org/firefox/downloads/latest/ublock-origin/latest.xpi";
           };
-          "keepassxc-browser@keepassxc.org" = {
+          "{446900e4-71c2-419f-a6a7-df9c091e268b}" = {
             installation_mode = "force_installed";
-            install_url = "https://addons.mozilla.org/firefox/downloads/latest/keepassxc-browser/latest.xpi";
+            install_url = "https://addons.mozilla.org/firefox/downloads/latest/bitwarden-password-manager/latest.xpi";
           };
         };
       };
@@ -62,7 +66,7 @@ in
             "browser.startup.page" = 3;
             "browser.contentblocking.category" = "strict";
             "browser.newtabpage.activity-stream.feeds.section.highlights" = false;
-            "media.av1.enabled" = false;  # TODO: enable for latst cpus
+            "media.av1.enabled" = false; # TODO: enable for latst cpus
             "browser.newtabpage.pinned" = [
               {
                 title = "NixOS";
@@ -99,7 +103,7 @@ in
     };
   };
 
-  sapphire.storage.impermanence.users.shared.dirs = [
+  nixdesk.core.storage.systemDisk.impermanence.user.dirs = [
     ".mozilla"
   ];
 }

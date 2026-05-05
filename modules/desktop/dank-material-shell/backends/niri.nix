@@ -157,10 +157,23 @@
         hotkey-overlay.skip-at-startup = true;
 
         binds = {
-          "Mod+T".action.spawn = [ "ghostty" "+new-window" ];
-          "Mod+Shift+S".action.spawn = [ "dms" "screenshot" ];
-          "Print".action.spawn = [ "dms" "screenshot" "full" ];
-          "Mod+E".action.spawn = [ "nautilus" "--new-window" ];
+          "Mod+T".action.spawn = [
+            "ghostty"
+            "+new-window"
+          ];
+          "Mod+Shift+S".action.spawn = [
+            "dms"
+            "screenshot"
+          ];
+          "Print".action.spawn = [
+            "dms"
+            "screenshot"
+            "full"
+          ];
+          "Mod+E".action.spawn = [
+            "nautilus"
+            "--new-window"
+          ];
 
           "Mod+O" = {
             repeat = false;

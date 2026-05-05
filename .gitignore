@@ -11,6 +11,4 @@ Sessionx.vim
 .idea_modules/
 .zed/
 
-.devshell-home
 .pre-commit-config.yaml
-.env

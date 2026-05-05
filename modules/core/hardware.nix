@@ -1,7 +1,7 @@
 {
+  config,
   lib,
   pkgs,
-  specs,
   ...
 }:
 {
@@ -10,7 +10,7 @@
     {
       hardware.enableAllFirmware = true;
       services.fwupd.enable = true;
-      sapphire.storage.impermanence.system = {
+      nixdesk.core.storage.systemDisk.impermanence.system = {
         dirs = [
           "/var/lib/fwupd/gnupg"
           "/var/lib/fwupd/metadata"
@@ -21,16 +21,12 @@
         ];
       };
     }
-    # Graphics Drivers
+    # Graphics Drivers (GPU specific drivers should me manually configured)
     {
       hardware.graphics = {
         enable = true;
         enable32Bit = true;
       };
-
-      environment.systemPackages = with pkgs; [
-        mission-center
-      ];
     }
     # Bluetooth
     {
@@ -38,6 +34,9 @@
         enable = true;
         powerOnBoot = false;
       };
+      nixdesk.core.storage.systemDisk.impermanence.system.dirs = [
+        "/var/lib/bluetooth"
+      ];
     }
     # Multimedia (Audio, Screen Sharing)
     {
@@ -51,7 +50,7 @@
       };
       services.pulseaudio.enable = lib.mkForce false;
       security.rtkit.enable = lib.mkDefault true;
-      sapphire.storage.impermanence.users.shared.dirs = [
+      nixdesk.core.storage.systemDisk.impermanence.user.dirs = [
         "@stateHome/wireplumber"
       ];
     }
@@ -59,13 +58,18 @@
     {
       services.printing.enable = true;
     }
-    # DDC/CI protocol
+    # DDC/CI protocol (monitor brightness control)
     {
       hardware.i2c.enable = true;
       environment.systemPackages = [ pkgs.ddcutil ];
-      users.users = lib.genAttrs (builtins.attrNames specs.core.users) (_: {
-        extraGroups = [ "i2c" ];
-      });
+      users.groups."i2c".members = lib.mapAttrsToList (_: v: v.name) config.nixdesk.core.users;
+    }
+    # TPM 2.0 support
+    {
+      security.tpm2.enable = true;
+      nixdesk.core.storage.systemDisk.impermanence.system.dirs = [
+        "/var/lib/tpm2-tss"
+      ];
     }
   ];
 }

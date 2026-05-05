@@ -1,34 +1,38 @@
 {
+  config,
   lib,
   inputs,
   ...
 }:
+let
+  cfg = config.nixdesk.core.nix;
+in
 {
   imports = [
     inputs.nix-index-database.nixosModules.nix-index
   ];
 
-  nixpkgs.config.allowUnfree = true;
+  options.nixdesk.core.nix = {
+    disableChannels = lib.mkOption {
+      type = lib.types.bool;
+      default = true;
+      description = "Whether to disable channels (recommended)";
+    };
+  };
 
-  programs.nix-index-database.comma.enable = true;
-
-  nix =
-    let
-      flakeInputs = lib.filterAttrs (_: lib.isType "flake") inputs;
-    in
+  config = lib.mkMerge [
     {
-      registry = lib.mapAttrs (_: flake: { inherit flake; }) flakeInputs;
-      nixPath = lib.mapAttrsToList (n: _: "${n}=flake:${n}") flakeInputs;
+      programs.nix-index-database.comma.enable = true;
 
-      settings = {
+      nixpkgs.config.allowUnfree = true;
+      environment.sessionVariables.NIXPKGS_ALLOW_UNFREE = "1";
+
+      nix.settings = {
         trusted-users = [ "@wheel" ];
         experimental-features = [
           "nix-command"
           "flakes"
-          "pipe-operators"
         ];
-        # disable global registry
-        flake-registry = "";
 
         connect-timeout = 5;
         log-lines = 25;
@@ -39,28 +43,28 @@
         warn-dirty = false;
 
         substituters = [
-          "https://cache.nixos.org?priority=10"
-          "https://hyprland.cachix.org"
           "https://nix-community.cachix.org"
           "https://cache.flox.dev"
         ];
         trusted-public-keys = [
-          "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
-          "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="
           "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
           "flox-cache-public-1:7F4OyH7ZCnFhcze3fJdfyXYLQw/aV7GEed86nQ7IsOs="
         ];
       };
-
-      channel.enable = false;
-    };
-
-  sapphire.storage.impermanence.users.shared = {
-    dirs = [
-      "@cacheHome/nix"
-    ];
-    files = [
-      "@dataHome/nix/repl-history"
-    ];
-  };
+    }
+    (lib.mkIf cfg.disableChannels (
+      let
+        flakeInputs = lib.filterAttrs (_: lib.isType "flake") inputs;
+      in
+      {
+        nix = {
+          channel.enable = false;
+          # all lookups must come from your flake inputs
+          registry = lib.mapAttrs (_: flake: { inherit flake; }) flakeInputs;
+          settings.flake-registry = "";
+          nixPath = lib.mapAttrsToList (n: _: "${n}=flake:${n}") flakeInputs;
+        };
+      }
+    ))
+  ];
 }
