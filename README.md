@@ -1,49 +1,50 @@
-# 🚀 Nixdesk: Functionality First (Because configuring your OS shouldn't be a full-time job)
+# Nixdesk 🖥️
 
-Welcome to Nixdesk. If you're looking for a "pretty" rice from r/unixporn that breaks the moment you update a package, you're in the wrong place. Nixdesk is for the brave souls who want a reproducible system that *actually* works. 🛠️
+A NixOS configuration framework built around reproducibility and a clean system state. Uses an ephemeral root — meaning your root filesystem resets on reboot, keeping only what you explicitly declare. Swap desktop environments, window managers, and packages without accumulating cruft.
 
-We use an ephemeral root to keep things spicy yet clean. Experiment with DEs, WMs, and weird apps without turning your system into a digital landfill. 🗑️✨
+---
 
-## 🛠️ The Quest: Crafting Your New Host
+## Getting Started 🚀
 
-Follow these steps carefully, or prepare to stare at a TTY in despair. 😱
+### 1. Fork the repository
+Clone and fork this repo as your own base.
 
-1. **Fork the Repo**: Claim your territory. 🚩
-2. **Purge the Old**: Delete the `phoenix` folders. They are customized for my specific hardware and neurotic needs. They will not love you. 🚫
-3. **Manifest Your Host**: Create a directory in the `hosts` folder. Name it whatever you want your hostname to be. Be bold. Be unique. 🌌
-4. **The Blueprint**:
-   - Create a `.arch` file in your host folder.
-   - Write `x86_64-linux` or `aarch64-linux` (depending on whether your CPU is a standard brick or a fancy ARM slab). 💻
-   - Create a `default.nix` and configure your heart's desire. Feel free to steal my configs — I'm not using them anyway. 🏴‍☠️
-   - Commit and push, only if you didn't put the secrets as plaintext. You're almost there... but not quite. ⏳
-5. **The Rite of Passage**: Boot into the NixOS Live ISO. 💿
-6. **Hardware Ritual**: Run this to tell NixOS what your hardware actually is:
-   ```bash
-   nixos-generate-config --no-filesystems --show-hardware-config
-   ```
-   Grab that output and save it as `hardware-configuration.nix` in your host directory. **CRITICAL**: Import this file in your `default.nix` or your system will have the memory of a goldfish. 🐟
-7. **The Grand Finale**:
-   ```bash
-   sudo nix --extra-experimental-features "nix-command flakes" run 'github:nix-community/disko/latest' -- --flake .#{{hostname}} --mode destroy,format,mount --debug
-   sudo nixos-install --flake .#{{hostname}}
-   ```
-   *(Replace `{{hostname}}` with your actual hostname, unless you want to install a system called "curly-braces-hostname".)* 🤡
+### 2. Remove the existing host configs
+Delete the `phoenix` directories. They are hardware-specific and won't work on your machine.
 
-## 🔑 Secrets, Lies, and Security
+### 3. Create your host
+Inside the `hosts` folder, create a new directory named after your desired hostname.
 
-We use `sops-nix` because keeping secrets in plaintext is for people who enjoy identity theft. 🕵️‍♂️
+### 4. Configure your host
+- Add a `.arch` file containing either `x86_64-linux` or `aarch64-linux` depending on your architecture.
+- Add a `default.nix` and configure your system. You can reference the existing configs as a starting point.
 
-SSH keys, Tailscale auth, Rclone tokens—everything is encrypted. 🔐
+### 5. Boot into NixOS Live ISO 💿
+You'll need this to run the installation steps.
 
-**⚠️ WARNING**: If you lose your SOPS private key, you haven't just lost your secrets; you've effectively factory-reset your digital existence. There is no "Forgot Password" button here. May the odds be ever in your favor. 🎲
+### 6. Generate hardware configuration
+```bash
+nixos-generate-config --no-filesystems --show-hardware-config
+```
+Save the output as `hardware-configuration.nix` inside your host directory and import it in `default.nix`.
 
-**Getting Started with Secrets**:
+### 7. Install ⚙️
+```bash
+sudo nix --extra-experimental-features "nix-command flakes" run 'github:nix-community/disko/latest' -- --flake .#<hostname> --mode destroy,format,mount
+sudo nixos-install --flake .#<hostname>
+```
+Replace `<hostname>` with your actual hostname — not literally `<hostname>`.
 
-1. Generate an age key-pair: `age-keygen`. 🔑
-1. Shove the private key into `var/lib/sops-nix/age-key.txt`. 📂
-1. Put the public key in `.sops.yaml`. 📝
-1. Recreate `shared.yaml` and `{{hostname}}.yaml` with your actual secrets. 🤫
+---
 
-______________________________________________________________________
+## Secrets Management 🔐
 
-*Go forth and configure. May your builds be fast and your errors be few.* 🚀✨
+Secrets are handled via `sops-nix`. SSH keys, Tailscale auth tokens, Rclone credentials — everything is encrypted at rest.
+
+**Setup:**
+1. Generate an age keypair: `age-keygen`
+2. Place the private key at `var/lib/sops-nix/age-key.txt`
+3. Add the public key to `.sops.yaml`
+4. Recreate `shared.yaml` and `<hostname>.yaml` with your actual secrets
+
+> ⚠️ **Important:** Do not commit plaintext secrets. If you lose your SOPS private key, the encrypted secrets are unrecoverable.
