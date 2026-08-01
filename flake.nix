@@ -19,16 +19,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     import-tree.url = "github:vic/import-tree";
-    # hyprland.url = "github:hyprwm/Hyprland";
-    niri-flake.url = "github:sodiboo/niri-flake";
-    dank-material-shell = {
-      url = "github:AvengeMedia/DankMaterialShell";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-    dgop = {
-      url = "github:AvengeMedia/dgop";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     disblock-origin = {
       url = "git+https://codeberg.org/AllPurposeMat/Disblock-Origin.git";
       flake = false;
