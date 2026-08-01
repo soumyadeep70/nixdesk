@@ -11,4 +11,7 @@ Sessionx.vim
 .idea_modules/
 .zed/
 
+.direnv/
+.devcontainer/devcontainer-lock.json
+
 .pre-commit-config.yaml
