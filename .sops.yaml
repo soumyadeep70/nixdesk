@@ -1,5 +1,5 @@
 keys:
-  - &phoenix age1448k2rf2q65e8q0qtknqw7f9ux8dclnwxxcxk5um2lk5sjavf35sf575d4
+  - &phoenix age1h59c0dlgye6ynxyee5rlj3shrug9n0x29p7zs5qvscsq40yaysvsqjv8vx
 
 creation_rules:
   - path_regex: secrets/shared.yaml$

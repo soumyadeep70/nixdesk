@@ -67,8 +67,8 @@
       userEmail = "soumyadeepdash70@gmail.com";
     };
     ssh = {
-      githubPrivateKeyFile = getSecret "github/ssh_private_key";
-      gitlabPrivateKeyFile = getSecret "gitlab/ssh_private_key";
+      githubPrivateKeyFile = getSecret "github/ssh_key";
+      gitlabPrivateKeyFile = getSecret "gitlab/ssh_key";
     };
     rclone = {
       GoogleDrive = {
