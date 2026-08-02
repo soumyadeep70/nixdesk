@@ -9,7 +9,8 @@
   },
 
   "mounts": [
-    "source=${env:HOME}/.gitconfig,target=/home/vscode/.gitconfig,type=bind,readonly",
+    // "source=${env:HOME}/.gitconfig,target=/home/vscode/.gitconfig,type=bind,readonly",
+    "source=${env:HOME}/.config/git/config,target=/home/vscode/.config/git/config,type=bind,readonly",
     "source=${env:HOME}/.ssh,target=/home/vscode/.ssh,type=bind,readonly",
     // "source=${env:SSH_AUTH_SOCK},target=/ssh-agent,type=bind",
   ],
