@@ -3,6 +3,6 @@
 }:
 {
   imports = [
-    ./plasma6
+    ./kde-plasma
   ];
 }
