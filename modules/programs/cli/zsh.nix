@@ -9,7 +9,40 @@
 
   programs.zsh = {
     enable = true;
-    interactiveShellInit = "fastfetch";
+    interactiveShellInit = ''
+      #!/bin/sh
+
+      banner='
+      ██████╗ ██╗  ██╗ ██████╗ ███████╗███╗   ██╗██╗██╗  ██╗
+      ██╔══██╗██║  ██║██╔═══██╗██╔════╝████╗  ██║██║╚██╗██╔╝
+      ██████╔╝███████║██║   ██║█████╗  ██╔██╗ ██║██║ ╚███╔╝
+      ██╔═══╝ ██╔══██║██║   ██║██╔══╝  ██║╚██╗██║██║ ██╔██╗
+      ██║     ██║  ██║╚██████╔╝███████╗██║ ╚████║██║██╔╝ ██╗
+      ╚═╝     ╚═╝  ╚═╝ ╚═════╝ ╚══════╝╚═╝  ╚═══╝╚═╝╚═╝  ╚═╝
+      '
+
+      colors="196 202 208 214 220 226"
+
+      cols=$(tput cols 2>/dev/null || echo 80)
+      [ "$cols" -lt 60 ] && exit 0
+
+      banner_width=60
+
+      pad=$(( (cols - banner_width) / 2 ))
+      [ "$pad" -lt 0 ] && pad=0
+
+      i=1
+
+      printf '%s\n' "$banner" | while IFS= read -r line; do
+        [ -z "$line" ] && continue
+
+        color=$(printf '%s\n' "$colors" | cut -d' ' -f"$i")
+
+        printf "%*s\033[38;5;%sm%s\033[0m\n" "$pad" "" "$color" "$line"
+
+        i=$((i + 1))
+      done
+    '';
   };
   users.defaultUserShell = pkgs.zsh;
   home-manager.sharedModules = lib.singleton (
