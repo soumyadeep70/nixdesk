@@ -39,7 +39,7 @@
 
     storage = {
       systemDisk = {
-        blockDevice = "nvme-WDC_WDS250G2B0C-00PXH0_20240B800186";
+        blockDevice = "/dev/disk/by-id/nvme-WDC_WDS250G2B0C-00PXH0_20240B800186";
         encryption.enable = true;
         compression.enable = true;
         swap = {
