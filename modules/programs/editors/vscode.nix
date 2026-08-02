@@ -17,17 +17,7 @@
           extensions = with pkgs.vscode-extensions; [
             tobiasalthoff.atom-material-theme
             pkief.material-icon-theme
-
-            jnoortheen.nix-ide
-            tamasfe.even-better-toml
-
-            dbaeumer.vscode-eslint
-            bradlc.vscode-tailwindcss
-            esbenp.prettier-vscode
-
-            ms-vscode.cmake-tools
-            llvm-vs-code-extensions.vscode-clangd
-            llvm-vs-code-extensions.lldb-dap
+            ms-vscode-remote.remote-containers
           ];
         };
       };
